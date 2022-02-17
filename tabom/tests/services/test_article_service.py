@@ -3,9 +3,10 @@ from django.test import TestCase
 from tabom.models import Like, User
 from tabom.models.article import Article
 from tabom.services.article_service import (
+    create_an_article,
     delete_an_article,
     get_an_article,
-    get_article_list, create_an_article,
+    get_article_list,
 )
 from tabom.services.like_service import do_like
 
@@ -20,7 +21,6 @@ class TestArticleService(TestCase):
 
         # Then
         self.assertEqual(article.title, title)
-
 
     def test_you_can_get_an_article_by_id(self) -> None:
         # Given
@@ -78,7 +78,7 @@ class TestArticleService(TestCase):
     def test_get_article_list_should_not_contain_my_likes_when_user_id_is_zero(self) -> None:
         # Given
         user = User.objects.create(name="test_user")
-        article1 =create_an_article(title="artice1")
+        article1 = create_an_article(title="artice1")
         Like.objects.create(user_id=user.id, article_id=article1.id)
         create_an_article(title="article2")
         invalid_user_id = 0
